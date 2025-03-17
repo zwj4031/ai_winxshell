@@ -9094,6 +9094,194 @@ print("切换语言为 en-US")
 
 
 
+以下是关于 `zh-CN.xml` 文件中提到的字体 ID 的详细说明，以及所有项目中最常用的字体 ID 和示例。同时确保颜色值使用正确的格式（`#AARRGGBB`）。
+
+
+
+### **1. 字体 ID 的定义与作用**
+
+在 WinXShell 中，字体 ID 是通过 `<Font>` 标签定义的，用于指定界面中控件的字体样式。字体 ID 是一个唯一标识符，可以在 XML 文件中通过 `font` 属性引用，以设置控件的字体。
+
+#### **字体 ID 的常见属性**
+- **`id`**: 字体的唯一标识符（整数或字符串）。
+- **`size`**: 字体大小（以像素为单位）。
+- **`name`**: 字体名称（如 `Segoe UI`、`微软雅黑` 等）。
+- **`shared`**: 是否共享字体（通常为 `true`）。
+- **`default`**: 是否为默认字体（通常为 `true`）。
+- **其他属性**:
+  - `bold`: 是否加粗。
+  - `underline`: 是否下划线。
+  - `italic`: 是否斜体。
+
+---
+
+### **2. `zh-CN.xml` 中提到的字体 ID**
+
+以下是从 `zh-CN.xml` 文件中提取的字体 ID 示例及其定义：
+
+#### **示例 1: 默认字体**
+```xml
+<Font id="16" size="16" name="微软雅黑" shared="true" default="true"/>
+```
+- **ID**: `16`
+- **字体名称**: `微软雅黑`
+- **字体大小**: `16`
+- **用途**: 作为默认字体，广泛用于按钮、标签等控件。
+
+#### **示例 2: 较大字体**
+```xml
+<Font id="24" size="24" name="微软雅黑" shared="true"/>
+```
+- **ID**: `24`
+- **字体名称**: `微软雅黑`
+- **字体大小**: `24`
+- **用途**: 用于标题、重要提示信息等需要较大字体的场景。
+
+#### **示例 3: 图标字体**
+```xml
+<Font id="sym" size="12" name="Segoe MDL2 Assets" shared="true"/>
+```
+- **ID**: `sym`
+- **字体名称**: `Segoe MDL2 Assets`
+- **字体大小**: `12`
+- **用途**: 用于显示图标符号（如电源、WiFi、音量等图标）。
+
+#### **示例 4: 加粗字体**
+```xml
+<Font id="16b" size="16" name="微软雅黑" shared="true" bold="true"/>
+```
+- **ID**: `16b`
+- **字体名称**: `微软雅黑`
+- **字体大小**: `16`
+- **加粗**: 是
+- **用途**: 用于强调文本内容，例如按钮上的文字。
+
+---
+
+### **3. 所有项目中最常用的字体 ID**
+
+根据知识库中的内容，以下是 WinXShell 项目中最常用的字体 ID 和其应用场景。
+
+#### **常用字体 ID 1: 默认字体**
+```xml
+<Font id="16" size="16" name="微软雅黑" shared="true" default="true"/>
+```
+- **用途**:
+  - 广泛用于普通文本控件（如按钮、标签、输入框等）。
+  - 是大多数界面的默认字体。
+- **示例**:
+  ```xml
+  <Button text="确定" font="16" textcolor="#FFFFFFFF"/>
+  ```
+
+#### **常用字体 ID 2: 较大字体**
+```xml
+<Font id="24" size="24" name="微软雅黑" shared="true"/>
+```
+- **用途**:
+  - 用于标题、窗口标题栏、重要提示信息等。
+- **示例**:
+  ```xml
+  <Label text="欢迎使用本工具" font="24" align="center" textcolor="#FFFFFFFF"/>
+  ```
+
+#### **常用字体 ID 3: 图标字体**
+```xml
+<Font id="sym" size="12" name="Segoe MDL2 Assets" shared="true"/>
+```
+- **用途**:
+  - 用于显示图标符号（如电源、WiFi、音量等图标）。
+- **示例**:
+  ```xml
+  <Button text="" font="sym" textcolor="#FF0000FF"/>
+  ```
+  （注：`` 是 `Segoe MDL2 Assets` 中的一个图标符号，表示“WiFi”。）
+
+#### **常用字体 ID 4: 加粗字体**
+```xml
+<Font id="16b" size="16" name="微软雅黑" shared="true" bold="true"/>
+```
+- **用途**:
+  - 用于强调文本内容，例如按钮上的文字、警告信息等。
+- **示例**:
+  ```xml
+  <Label text="重要提示：" font="16b" textcolor="#FFFF0000"/>
+  ```
+
+#### **常用字体 ID 5: 小字体**
+```xml
+<Font id="10" size="10" name="微软雅黑" shared="true"/>
+```
+- **用途**:
+  - 用于辅助说明文字、小标签等。
+- **示例**:
+  ```xml
+  <Label text="版本号：1.0.0" font="10" textcolor="#FF808080"/>
+  ```
+
+---
+
+### **4. 综合示例**
+
+以下是一个完整的 XML 示例，展示如何使用不同的字体 ID 和颜色值（`#AARRGGBB`）：
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<Window size="400,300" caption="true">
+    <!-- 定义字体 -->
+    <Font id="10" size="10" name="微软雅黑" shared="true"/>
+    <Font id="16" size="16" name="微软雅黑" shared="true" default="true"/>
+    <Font id="24" size="24" name="微软雅黑" shared="true"/>
+    <Font id="sym" size="12" name="Segoe MDL2 Assets" shared="true"/>
+
+    <!-- 主布局 -->
+    <VerticalLayout padding="10,10,10,10">
+        <!-- 标题 -->
+        <Label text="欢迎使用本工具" font="24" align="center" textcolor="#FFFFFFFF"/>
+
+        <!-- 普通文本 -->
+        <Label text="这是一个普通文本示例。" font="16" textcolor="#FF000000"/>
+
+        <!-- 小字体 -->
+        <Label text="版本号：1.0.0" font="10" textcolor="#FF808080"/>
+
+        <!-- 图标按钮 -->
+        <Button text=" WiFi" font="sym" textcolor="#FF0000FF" hottextcolor="#FFFFFFFF"/>
+
+        <!-- 加粗文本 -->
+        <Label text="重要提示：" font="16b" textcolor="#FFFF0000"/>
+    </VerticalLayout>
+</Window>
+```
+
+---
+
+### **5. 颜色值的正确格式**
+
+在上述示例中，颜色值均使用 `#AARRGGBB` 格式：
+- 白色：`#FFFFFFFF`
+- 黑色：`#FF000000`
+- 红色：`#FFFF0000`
+- 蓝色：`#FF0000FF`
+- 浅灰色：`#FF808080`
+
+---
+
+### **6. 总结**
+
+- **`zh-CN.xml` 中的字体 ID**:
+  - 包括默认字体、较大字体、图标字体、加粗字体等。
+  - 每个字体 ID 都有明确的用途和适用场景。
+
+- **最常用的字体 ID**:
+  - 默认字体（`id="16"`）是最常见的选择。
+  - 图标字体（`id="sym"`）用于显示符号。
+  - 较大字体（`id="24"`）用于标题或重要信息。
+
+- **颜色值格式**:
+  - 使用 `#AARRGGBB` 格式，确保透明度和颜色值正确。
+
+
 #### 手工添加内容
 #### **注意事项** 开始
 - 因为在winxshell项目中，print并不可见，所以除需要调试时App:Print来输出控制台,其它场景用alert()来替代
