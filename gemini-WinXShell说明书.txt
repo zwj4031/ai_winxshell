@@ -7524,7 +7524,7 @@ end
 
 ---
 
-### **main.xml 内容**
+### **main.xml 内容**  字体图标示例,这里创建了一个字体id，引用Segoe Fluent Icons字体，id是100(这个字体目前只能用数字id)，在控件中引用这个id，可以使用字体中的图标
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
