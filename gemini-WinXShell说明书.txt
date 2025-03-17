@@ -8914,6 +8914,186 @@ X:\Program Files\winxshell.exe -ui -jcfg X:\Program Files\wxsUI\UI_DynamicTest\m
 
 
 
+### **1. 参数说明与补充**
+
+以下是对 `jcfg` 参数的详细说明：
+
+#### **核心参数**
+- **`name`**:
+  - 类型：字符串。
+  - 描述：指定 UI 的唯一名称。这是必须参数，用于标识窗口类型。
+  - 示例：`"UI_Shutdown"`。
+
+- **`title`**:
+  - 类型：字符串。
+  - 描述：指定窗口标题（任务栏显示名称）。可以是本地化资源 ID，也可以直接指定字符串。如果未指定，默认使用 `name`。
+  - 示例：`"%{Power}"` 或 `"关机工具"`。
+
+- **`entry`**:
+  - 类型：字符串。
+  - 描述：指定入口文件（通常是 XML 文件路径）。如果未指定，默认为 `main.xml`。
+  - 示例：`"shutdown.xml"`。
+
+- **`singleton`**:
+  - 类型：布尔值。
+  - 描述：表明窗口是否唯一。如果为 `true`，当该类型窗口已存在时，激活现有窗口而不是创建新窗口。多用于设置窗口或工具窗口。
+  - 示例：`true`。
+
+- **`noshadow`**:
+  - 类型：布尔值。
+  - 描述：是否禁用窗口阴影效果（如 `Shadow.png`）。默认为 `false`（启用阴影）。
+  - 示例：`false`。
+
+- **`position`**:
+  - 类型：固定字符串。
+  - 描述：指定窗口启动位置。可选值包括：
+    - `center`：屏幕中央（默认）。
+    - `rightbottom`：桌面右下角。
+  - 示例：`"center"`。
+
+- **`nobaricon`**:
+  - 类型：布尔值。
+  - 描述：是否在任务栏显示图标。默认为 `false`（显示图标）。
+  - 示例：`true`。
+
+- **`baricon`**:
+  - 类型：字符串。
+  - 描述：指定任务栏图标的资源路径。如果未指定，默认为 `main.ico`。
+  - 示例：`"icons/shutdown.ico"`。
+
+- **`customstyle`**:
+  - 类型：布尔值。
+  - 描述：是否指定窗口风格。如果为 `true`，需要手动设置 `style` 和 `exstyle`。默认为 `false`。
+  - 示例：`false`。
+
+- **`style`**:
+  - 类型：长整数值。
+  - 描述：指定窗口风格，具体值参考微软文档（如 `WS_OVERLAPPEDWINDOW`）。默认值为 `WS_OVERLAPPEDWINDOW`。
+  - 示例：`0x00CF0000`。
+
+- **`exstyle`**:
+  - 类型：长整数值。
+  - 描述：指定窗口扩展风格，具体值参考微软文档（如 `WS_EX_WINDOWEDGE`）。默认值为 `WS_EX_WINDOWEDGE`。
+  - 示例：`0x00000100`。
+
+- **`theme`**:
+  - 类型：字符串。
+  - 描述：指定主题文件路径（通常是 `themes\*.xml`）。如果未指定，默认为 `default`。
+  - 示例：`"themes/shutdown_theme.xml"`。
+
+- **`locale`**:
+  - 类型：字符串。
+  - 描述：指定界面文字显示的本地语言资源（如 `zh-CN`、`en-US`）。如果未指定，默认使用系统语言。
+  - 示例：`"zh-CN"`。
+
+---
+
+### **2. 示例 `.jcfg` 文件**
+
+以下是一个完整的 `.jcfg` 文件示例，展示了如何配置上述参数：
+
+```json
+{
+  "name": "UI_Shutdown",
+  "title": "%{Power}",
+  "entry": "shutdown.xml",
+  "lua": "shutdown.lua",
+  "singleton": true,
+  "noshadow": false,
+  "position": "center",
+  "nobaricon": false,
+  "baricon": "icons/shutdown.ico",
+  "customstyle": false,
+  "style": 0x00CF0000,
+  "exstyle": 0x00000100,
+  "theme": "themes/shutdown_theme.xml",
+  "locale": "zh-CN"
+}
+```
+
+---
+
+### **3. Lua 脚本示例**
+
+以下是一个 Lua 脚本示例，展示如何动态获取和设置窗口属性：
+
+```lua
+-- 获取当前窗口对象
+local window = sui:find("UI_Shutdown")
+
+-- 获取窗口标题
+local title = window.caption
+print(string.format("窗口标题: %s", title))
+
+-- 修改窗口标题
+window.caption = "新的关机工具"
+
+-- 获取窗口大小
+local width, height = window:size()
+print(string.format("窗口大小: %dx%d", width, height))
+
+-- 修改窗口大小
+window:size(800, 600) -- 设置为 800x600
+
+-- 获取窗口位置
+local x, y = window:pos()
+print(string.format("窗口位置: (%d, %d)", x, y))
+
+-- 修改窗口位置
+window:move(100, 100) -- 移动到 (100, 100)
+
+-- 获取任务栏图标状态
+local hasBarIcon = not window.nobaricon
+print(string.format("是否显示任务栏图标: %s", hasBarIcon and "是" or "否"))
+
+-- 隐藏任务栏图标
+window.nobaricon = true
+
+-- 刷新窗口样式
+if window.customstyle then
+    window.style = 0x00CF0000 -- 自定义窗口风格
+    window.exstyle = 0x00000100 -- 自定义扩展风格
+end
+
+-- 获取主题信息
+local theme = window.theme
+print(string.format("当前主题: %s", theme))
+
+-- 切换语言
+window.locale = "en-US"
+print("切换语言为 en-US")
+```
+
+---
+
+### **4. 示例运行效果**
+
+1. **窗口初始化**：
+   - 窗口以 `center`（屏幕中央）位置启动。
+   - 窗口标题显示为 `%{Power}`（根据本地化资源解析为“电源”或类似内容）。
+   - 显示任务栏图标 `shutdown.ico`。
+
+2. **动态调整窗口属性**：
+   - 修改窗口标题为“新的关机工具”。
+   - 将窗口大小调整为 `800x600`。
+   - 将窗口移动到 `(100, 100)` 位置。
+   - 隐藏任务栏图标。
+
+3. **自定义窗口风格**：
+   - 如果启用了 `customstyle`，动态设置窗口风格和扩展风格。
+
+4. **主题与语言切换**：
+   - 当前主题为 `themes/shutdown_theme.xml`。
+   - 动态切换语言为 `en-US`。
+
+---
+
+### **5. 总结**
+
+通过上述示例，您可以全面了解如何在 `.jcfg` 文件中配置窗口参数，以及如何在 Lua 脚本中动态操作窗口属性。这些功能可以帮助您更灵活地设计和管理 WinXShell 应用程序的界面行为。如果您有更多需求或问题，请随时告诉我！
+
+
+
 #### 手工添加内容
 #### **注意事项** 开始
 - 因为在winxshell项目中，print并不可见，所以除需要调试时App:Print来输出控制台,其它场景用alert()来替代
